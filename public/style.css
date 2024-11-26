@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #000000;
+    overflow: hidden;
+}
+
+#game-containe {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('./src/sprites/Background.png');
+    background-image: cover;
+    background-repeat: no-repeat;
+}
