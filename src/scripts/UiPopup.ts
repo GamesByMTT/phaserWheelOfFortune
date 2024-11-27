@@ -55,7 +55,7 @@ export class UiPopups extends Phaser.GameObjects.Container {
             this.buttonMusic("buttonpressed")
             this.openPopUp();
         }, 0, true);
-        this.menuBtn.setPosition( gameConfig.scale.width * 0.065, gameConfig.scale.height * 0.9 ).setScale(0.9);
+        this.menuBtn.setPosition( gameConfig.scale.width * 0.05, gameConfig.scale.height * 0.9 );
         this.add(this.menuBtn);
     }
     exitButton(){
@@ -67,7 +67,7 @@ export class UiPopups extends Phaser.GameObjects.Container {
                 this.buttonMusic("buttonpressed")
                 this.openLogoutPopup();
         }, 0, true, );
-        this.exitBtn.setPosition(90, 40).setScale(0.5).setOrigin(0.5)
+        this.exitBtn.setPosition(gameConfig.scale.width/1.2, gameConfig.scale.height/2 - 300).setScale(0.5).setOrigin(0.5)
         this.add(this.exitBtn)
     }
 
@@ -100,8 +100,8 @@ export class UiPopups extends Phaser.GameObjects.Container {
             this.buttonMusic("buttonpressed")
             this.openPopUp();
             this.openInfoPopup();
-        }, 2, false); // Adjusted the position index
-        this.infoBtn.setPosition(gameConfig.scale.width/ 2 - this.infoBtn.width * 5, this.infoBtn.height * 0.7).setScale(0.8);
+        }, 2, true); // Adjusted the position index
+        this.infoBtn.setPosition(gameConfig.scale.width * 0.95, gameConfig.scale.height * 0.9);
         this.add(this.infoBtn);
     }
 

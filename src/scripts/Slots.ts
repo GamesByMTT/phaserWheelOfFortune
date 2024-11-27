@@ -40,7 +40,7 @@ export class Slots extends Phaser.GameObjects.Container {
         // mask Position set
         this.slotMask.setPosition(
             gameConfig.scale.width / 6.5,
-            gameConfig.scale.height / 3.35
+            gameConfig.scale.height / 2.8
         );
         // Filter and pick symbol keys based on the criteria
         this.symbolKeys = this.getFilteredSymbolKeys();
@@ -53,10 +53,10 @@ export class Slots extends Phaser.GameObjects.Container {
         this.spacingY = 170; // Add some spacing
         const startPos = {
             x: gameConfig.scale.width / 3.3,
-            y: gameConfig.scale.height / 2.5 
+            y: gameConfig.scale.height / 2.8 
         };
 
-        const totalSymbol = 7;
+        const totalSymbol = 5;
         const visibleSymbol = 3;
         const startIndex = 1;
         const initialYOffset = (totalSymbol - startIndex - visibleSymbol) * this.spacingY;
@@ -73,7 +73,7 @@ export class Slots extends Phaser.GameObjects.Container {
                 slot.symbol.setPosition(
                 startPos.x + i * this.spacingX,
                 startPos.y + j * this.spacingY); 
-                slot.symbol.setScale(0.8, 0.8)
+                slot.symbol.setScale(0.8)
                 slot.startX = slot.symbol.x;
                 slot.startY = slot.symbol.y;
                 this.slotSymbols[i].push(slot);                
@@ -382,34 +382,40 @@ class Symbols {
     }
 
     endTween() {
-        
-        if (this.index.y < 2) {
-            let textureKeys: string[] = [];
-            // Retrieve the elementId based on index
+        // Check if this is a visible symbol position
+        if (this.index.y < 3) { // Assuming 3 visible symbols
             const elementId = ResultData.gameData.resultSymbols[this.index.y][this.index.x];
+            
+            // Directly set the base texture first
+            const baseTextureKey = `slots${elementId}_0`;
+            if (this.scene.textures.exists(baseTextureKey)) {
+                this.symbol.setTexture(baseTextureKey);
+            }
+    
+            // Then set up the animation if needed
+            const animKey = `symbol_anim_${elementId}`;
+            if (!this.scene.anims.exists(animKey)) {
+                let textureKeys: string[] = [];
                 for (let i = 0; i < 24; i++) {
                     const textureKey = `slots${elementId}_${i}`;
-                    // Check if the texture exists in cache
                     if (this.scene.textures.exists(textureKey)) {
-                        textureKeys.push(textureKey);                        
-                    } 
-                }
-                // Check if we have texture keys to set
-                    if (textureKeys.length > 0) {
-                    // Create animation with the collected texture keys
-                        this.scene.anims.create({
-                            key: `symbol_anim_${elementId}`,
-                            frames: textureKeys.map(key => ({ key })),
-                            frameRate: 20,
-                            repeat: -1
-                        });
-                    // Set the texture to the first key and start the animation
-                        this.symbol.setTexture(textureKeys[0]);           
+                        textureKeys.push(textureKey);
                     }
+                }
+                
+                if (textureKeys.length > 0) {
+                    this.scene.anims.create({
+                        key: animKey,
+                        frames: textureKeys.map(key => ({ key })),
+                        frameRate: 20,
+                        repeat: -1
+                    });
+                }
+            }
         }
-        // Stop moving and start tweening the sprite's position
-        this.scene.time.delayedCall(50, () => { // Example: 50ms delay
-            this.startMoving = false; 
+    
+        this.scene.time.delayedCall(50, () => {
+            this.startMoving = false;
         });
     }
 

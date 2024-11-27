@@ -7,7 +7,7 @@ export class TextLabel extends GameObjects.Text {
     constructor(scene: Scene, x: number, y: number, textToShow: string, size: number, defaultColor: string = '#ff8001', font: string = 'Inter') {
         const style = {
             ...globalTextStyle,
-            fontFamily: "Digital Dismay",
+            fontFamily: "Arial",
             fontSize: `${size}px`,
             color: "#ff8001",
             fill: defaultColor,

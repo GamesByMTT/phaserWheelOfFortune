@@ -12,22 +12,16 @@ export default class MainScene extends Scene {
     slot!: Slots;
     Background!: Phaser.GameObjects.Sprite
     slotFrame!: Phaser.GameObjects.Sprite;
-    fristFrameBg!: Phaser.GameObjects.Sprite;
-    seconOuterFrame!: Phaser.GameObjects.Sprite;
+    goldSpin!: Phaser.GameObjects.Sprite;
+    trippleText!: Phaser.GameObjects.Sprite;
     reelBg!: Phaser.GameObjects.Sprite;
-    ReelFrame!: Phaser.GameObjects.Sprite;
-    smallBoxx!: Phaser.GameObjects.Sprite;
-    SmallBoxxReel!: Phaser.GameObjects.Sprite;
-    goldenBar!: Phaser.GameObjects.Sprite; 
+    goldBar!: Phaser.GameObjects.Sprite;
+    goldenFrame!: Phaser.GameObjects.Sprite;
+    blackandWhiteGoldSpin!: Phaser.GameObjects.Sprite;
+    blackandWhiteWheel!: Phaser.GameObjects.Sprite;
     centerLine!: Phaser.GameObjects.Sprite;
-    triangleanim1!: Phaser.GameObjects.Sprite
-    triangleanim2!: Phaser.GameObjects.Sprite
-    triangleanim3!: Phaser.GameObjects.Sprite;
-    triangleanim4!: Phaser.GameObjects.Sprite;
-    triangleanim5!: Phaser.GameObjects.Sprite;
-    triangleanim6!: Phaser.GameObjects.Sprite;
     reelOuterBg!: Phaser.GameObjects.Sprite;
-    redSmallBox!: Phaser.GameObjects.Sprite;
+    
     lineGenerator!: LineGenerator;
     soundManager!: SoundManager
     uiContainer!: UiContainer;
@@ -56,19 +50,19 @@ export default class MainScene extends Scene {
         this.Background = new Phaser.GameObjects.Sprite(this, width/2, height/2, "Background")
         this.mainContainer.add(this.Background)
       
-        this.logo = new Phaser.GameObjects.Sprite(this, width * 0.1, height/2 - 400, "gamelogo").setScale(0.7)
-        // this.fristFrameBg = new Phaser.GameObjects.Sprite(this, width/1.9, height/2, "fristFrameBg").setDisplaySize(1500, 550)
-        // this.seconOuterFrame = new Phaser.GameObjects.Sprite(this, width/1.9, height/1.96, "seconOuterFrame").setDisplaySize(1500, 520);
-        this.reelOuterBg = new Phaser.GameObjects.Sprite(this, width/2, height/2, "reelOuterBg")
-        // this.redSmallBox = new Phaser.GameObjects.Sprite(this, width/1.26, height/7, "redSmallBox").setDisplaySize(493, 275)
-        this.reelBg = new Phaser.GameObjects.Sprite(this, width/2, height/2, "reelBg")
-        // this.ReelFrame = new Phaser.GameObjects.Sprite(this, width/2.405, height/1.945, "ReelFrame").setDisplaySize(1100, 520);
-        // this.smallBoxx = new Phaser.GameObjects.Sprite(this, width/1.255, height/1.95, "smallBoxx").setDisplaySize(400, 410)
-        // this.SmallBoxxReel = new Phaser.GameObjects.Sprite(this, width/1.26, height/ 1.9, "SmallBoxxReel").setDisplaySize(400, 430),
+        this.logo = new Phaser.GameObjects.Sprite(this, width * 0.5, height/2 - 470, "gamelogo").setOrigin(0.5).setScale(0.8)
+        this.goldBar = new Phaser.GameObjects.Sprite(this, width * 0.36, height/2 - 370, "goldBar").setScale(1.3)
+        this.trippleText = new Phaser.GameObjects.Sprite(this, width * 0.25, height/2 - 370, "trippleText").setScale(0.9)
+        this.reelOuterBg = new Phaser.GameObjects.Sprite(this, width/2, height/1.8, "reelOuterBg")
+        this.goldenFrame = new Phaser.GameObjects.Sprite(this, width/2, height/2 - 200, "goldenFrame").setOrigin(0.5)
+        this.reelBg = new Phaser.GameObjects.Sprite(this, width/2, height/1.8, "reelBg")
+        this.blackandWhiteGoldSpin = new Phaser.GameObjects.Sprite(this, width/1.295, height/3.22, "blackandWhiteGoldSpin").setScale(0.95)
+        this.blackandWhiteWheel = new Phaser.GameObjects.Sprite(this, width * 0.2275, height/3.22, "blackandWhiteWheel").setScale(0.95)
+        this.goldSpin = new Phaser.GameObjects.Sprite(this, width/1.4, height/2 - 370, "goldSpinText").setScale(0.9)
         // this.centerLine = new Phaser.GameObjects.Sprite(this, width/1.9, height/1.9, "centerLine").setScale(0.8)
         // this.WheelawardText = new Phaser.GameObjects.Sprite(this, width * 0.795, height * 0.26, "Wheelaward").setScale(0.7)
        
-        this.mainContainer.add([this.logo, this.reelBg, this.reelOuterBg])
+        this.mainContainer.add([this.goldBar, this.logo, this.trippleText, this.goldenFrame, this.goldSpin, this.blackandWhiteGoldSpin, this.blackandWhiteWheel, this.reelBg, this.reelOuterBg])
         this.soundManager.playSound("backgroundMusic")
         // // Initialize Slots
         this.slot = new Slots(this, this.uiContainer,() => this.onResultCallBack(), this.soundManager);
