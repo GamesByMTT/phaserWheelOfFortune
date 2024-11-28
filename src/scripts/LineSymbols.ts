@@ -7,7 +7,6 @@ export default class LineSymbols extends Phaser.GameObjects.Container{
     numberArr: Phaser.GameObjects.Container[] = [];
     linesGenerator!: LineGenerator; // Reference to LineGenerator
     numberContainers!: Phaser.GameObjects.Container
-    circle!: Phaser.GameObjects.Sprite
     constructor(scene: Phaser.Scene, yOf: number, xOf: number, linesGenerator: LineGenerator) {
         // console.log(xOf, yOf);
         super(scene);
@@ -16,7 +15,7 @@ export default class LineSymbols extends Phaser.GameObjects.Container{
         for (let i = 0; i < initData.gameData.Lines.length; i++) {
             let numberText = this.createNumber(scene, i);
             this.numberArr.push(numberText);
-            this.add([numberText]);
+            this.add(numberText);
         }
 
         this.setPosition(gameConfig.scale.width / 2, gameConfig.scale.height/2.9);
@@ -40,9 +39,8 @@ export default class LineSymbols extends Phaser.GameObjects.Container{
         }
     
         // Add a background sprite behind the number
-        let numberBg = scene.add.sprite(xPosition, yPosition, "lineButton")
+        let numberBg = scene.add.sprite(xPosition - 2, yPosition + 3, "lineSymbols")
             .setOrigin(0.5, 0.5)
-            .setScale(0.8)
             .setDepth(0);  // Set depth lower than the text to make it behind
     
         // Create a text object for each number
@@ -65,8 +63,6 @@ export default class LineSymbols extends Phaser.GameObjects.Container{
         // Return the container which includes both the background and the number text
         return numberContainer;
     }
-    
-    
     showLines(index: number) {
         // Example: show lines related to the number
         this.linesGenerator.showLines([index]); // Adjust as needed

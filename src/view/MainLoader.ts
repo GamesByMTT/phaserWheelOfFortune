@@ -55,8 +55,8 @@ export default class MainLoader extends Scene {
     private setupFontLoader() {
         WebFont.load({
             custom: {
-                families: ['Digital Dismay'],
-                urls: ['src/fonts/Digital_Dismay.otf']
+                families: ['Nunito'],
+                urls: ['src/fonts/Nunito-SemiBold.ttf']
             },
             active: () => {
                 // Fonts have loaded

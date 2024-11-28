@@ -72,6 +72,7 @@ export class SocketManager {
             Globals.emitter?.Call("ResultData");
             // console.log(data);
             console.log(data.message, "ResultData")
+            console.log(ResultData.gameData, "Ater ResultData")
           }, 500);
              
         }

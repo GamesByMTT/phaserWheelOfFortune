@@ -3,6 +3,7 @@ import { currentGameData, Globals, initData, TextStyle } from "./Globals";
 import { gameConfig } from "./appconfig";
 import { UiContainer } from "./UiContainer";
 import SoundManager from "./SoundManager";
+import InfoScene from "./infoPopup";
 import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 
 const Random = Phaser.Math.Between;
@@ -53,7 +54,8 @@ export class UiPopups extends Phaser.GameObjects.Container {
         ];
         this.menuBtn = new InteractiveBtn(this.scene, menuBtnTextures, () => {
             this.buttonMusic("buttonpressed")
-            this.openPopUp();
+            this.openSettingPopup()
+            // this.openPopUp();
         }, 0, true);
         this.menuBtn.setPosition( gameConfig.scale.width * 0.05, gameConfig.scale.height * 0.9 );
         this.add(this.menuBtn);
@@ -98,8 +100,9 @@ export class UiPopups extends Phaser.GameObjects.Container {
         this.infoBtn = new InteractiveBtn(this.scene, infoBtnSprites, () => {
             // info button 
             this.buttonMusic("buttonpressed")
-            this.openPopUp();
-            this.openInfoPopup();
+            // this.openPopUp();
+            // this.openInfoPopup();
+            this.openPage();
         }, 2, true); // Adjusted the position index
         this.infoBtn.setPosition(gameConfig.scale.width * 0.95, gameConfig.scale.height * 0.9);
         this.add(this.infoBtn);
@@ -174,7 +177,7 @@ export class UiPopups extends Phaser.GameObjects.Container {
             pointer.event.stopPropagation();
         });
         
-        const popupBg = this.scene.add.image(0, 0, 'settingPopup').setDepth(9);
+        const popupBg = this.scene.add.image(0, 0, 'settingBg').setDepth(9);
         const settingText = this.scene.add.image(0, -350, "settingText").setDepth(9).setOrigin(0.5)
         const soundsImage = this.scene.add.image(-200, -120, 'soundImage').setDepth(10);
         const musicImage = this.scene.add.image(-200, 50, 'musicImage').setDepth(10);
@@ -225,7 +228,7 @@ export class UiPopups extends Phaser.GameObjects.Container {
             settingblurGraphic.destroy();
             this.buttonMusic("buttonpressed")
         }, 0, true);
-        this.settingClose.setScale(0.2)
+        this.settingClose.setScale(0.6)
         this.settingClose.setPosition(320, -250);
 
         popupBg.setOrigin(0.5);
@@ -264,6 +267,10 @@ export class UiPopups extends Phaser.GameObjects.Container {
         }
     }
 
+    openPage() {
+        Globals.SceneHandler?.addScene("InfoScene", InfoScene, true)
+    }
+
     /**
      * @method openinfo
      */
@@ -298,58 +305,58 @@ export class UiPopups extends Phaser.GameObjects.Container {
             // 7. Add the content that will be scrolled 
             const contentHeight = 3400; // Example content height, adjust as needed 
             // const content = this.scene.add.image( gameConfig.scale.width / 2, 100, 'minorSymbolsHeading' ).setOrigin(0.5).setDepth(2); 
-            const content = this.scene.add.text( gameConfig.scale.width / 2, 20, 'SPECIAL REEL', { fontSize: '50px', color: '#ff8001', align: "center", fontFamily: "Arial", fontStyle: "Bold", } ).setOrigin(0.5)
-            const line1 = this.scene.add.text(gameConfig.scale.width * 0.25, 100, "The rightmost reel is a special reel, when the reels to its left makes a winning combination, you get extra bonuses based on the symbol of the special reel!",  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Arial", wordWrap: { width: 1000, useAdvancedWrap: true }, } )
+            const content = this.scene.add.text( gameConfig.scale.width / 2, 20, 'SPECIAL REEL', { fontSize: '50px', color: '#ff8001', align: "center", fontFamily: "Nunito", fontStyle: "Bold", } ).setOrigin(0.5)
+            const line1 = this.scene.add.text(gameConfig.scale.width * 0.25, 100, "The rightmost reel is a special reel, when the reels to its left makes a winning combination, you get extra bonuses based on the symbol of the special reel!",  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Nunito", wordWrap: { width: 1000, useAdvancedWrap: true }, } )
             const firstSymbol = this.scene.add.image(gameConfig.scale.width * 0.3, 330, "infoFirstIcon" ).setOrigin(0.5).setScale(0.8)
-            const paragraphText = this.scene.add.text(gameConfig.scale.width * 0.38, 280, `All payout this round are multiplied by the corresponding multiplier`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: 'Arial',  wordWrap: { width: 770, useAdvancedWrap: true }})
+            const paragraphText = this.scene.add.text(gameConfig.scale.width * 0.38, 280, `All payout this round are multiplied by the corresponding multiplier`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: 'Nunito',  wordWrap: { width: 770, useAdvancedWrap: true }})
             const secondSymbol = this.scene.add.image(gameConfig.scale.width * 0.3, 520, "secondIcon").setOrigin(0.5).setScale(0.8)
-            const secondSymbolText = this.scene.add.text(gameConfig.scale.width * 0.38, 480,  `Win extra payout according to the player's bet amount`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: 'Arial',  wordWrap: { width: 770, useAdvancedWrap: true }})
+            const secondSymbolText = this.scene.add.text(gameConfig.scale.width * 0.38, 480,  `Win extra payout according to the player's bet amount`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: 'Nunito',  wordWrap: { width: 770, useAdvancedWrap: true }})
             const thirdSymbol = this.scene.add.image(gameConfig.scale.width * 0.3, 710, "slots11_0").setOrigin(0.5).setScale(0.8)
-            const thirdSymbolText = this.scene.add.text(gameConfig.scale.width * 0.38, 670, `Gain 3 to 5 respins randomly on the winning combination.`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: 'Arial',  wordWrap: { width: 770, useAdvancedWrap: true }})
-            const payTableHeading = this.scene.add.text(gameConfig.scale.width /2, 850, 'PAY TABLE', { fontSize: '50px', color: '#ff8001', align: "center", fontFamily: "Arial", fontStyle: "Bold", } ).setOrigin(0.5)
+            const thirdSymbolText = this.scene.add.text(gameConfig.scale.width * 0.38, 670, `Gain 3 to 5 respins randomly on the winning combination.`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: 'Nunito',  wordWrap: { width: 770, useAdvancedWrap: true }})
+            const payTableHeading = this.scene.add.text(gameConfig.scale.width /2, 850, 'PAY TABLE', { fontSize: '50px', color: '#ff8001', align: "center", fontFamily: "Nunito", fontStyle: "Bold", } ).setOrigin(0.5)
             const symbolOne = this.scene.add.image(gameConfig.scale.width/2.2, 1040, "slots1_0").setScale(0.4)
-            const symbolOneText = this.scene.add.text(gameConfig.scale.width/2, 1010, `3X`, { fontSize: '40px', color: '#ff8001', align: "center", fontFamily: "Arial", })
-            const symbolOneTextAmount = this.scene.add.text(gameConfig.scale.width/1.88, 1010, ` 500`, { fontSize: '40px', color: '#ffffff', align: "center", fontFamily: "Arial" })
+            const symbolOneText = this.scene.add.text(gameConfig.scale.width/2, 1010, `3X`, { fontSize: '40px', color: '#ff8001', align: "center", fontFamily: "Nunito", })
+            const symbolOneTextAmount = this.scene.add.text(gameConfig.scale.width/1.88, 1010, ` 500`, { fontSize: '40px', color: '#ffffff', align: "center", fontFamily: "Nunito" })
             const symboleTwo = this.scene.add.image(gameConfig.scale.width * 0.33, 1150, 'slots2_0').setScale(0.4)
-            const symbolTwoText = this.scene.add.text(gameConfig.scale.width * 0.36, 1130, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Arial",})
-            const symbolTwoTextAmount = this.scene.add.text(gameConfig.scale.width * 0.4, 1130, `100`, {fontSize: "40px", color: '#ffffff', fontFamily:"Arial"})
+            const symbolTwoText = this.scene.add.text(gameConfig.scale.width * 0.36, 1130, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Nunito",})
+            const symbolTwoTextAmount = this.scene.add.text(gameConfig.scale.width * 0.4, 1130, `100`, {fontSize: "40px", color: '#ffffff', fontFamily:"Nunito"})
             const symbolThree = this.scene.add.image(gameConfig.scale.width * 0.62, 1150, "slots3_0").setScale(0.4)
-            const symbolThreeText = this.scene.add.text(gameConfig.scale.width * 0.65, 1130, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Arial", })
-            const symbolThreeTextAmount = this.scene.add.text(gameConfig.scale.width * 0.69, 1130, `50`, {fontSize: "40px", color: '#ffffff', fontFamily:"Arial", })
+            const symbolThreeText = this.scene.add.text(gameConfig.scale.width * 0.65, 1130, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Nunito", })
+            const symbolThreeTextAmount = this.scene.add.text(gameConfig.scale.width * 0.69, 1130, `50`, {fontSize: "40px", color: '#ffffff', fontFamily:"Nunito", })
             const symbolFour = this.scene.add.image(gameConfig.scale.width * 0.33, 1300, "slots4_0").setScale(0.4)
-            const symbolFourText =  this.scene.add.text(gameConfig.scale.width * 0.36, 1280, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Arial", })
-            const symbolFourTextAmount = this.scene.add.text(gameConfig.scale.width * 0.4, 1280, `30`, {fontSize: "40px", color: '#ffffff', fontFamily:"Arial", })
+            const symbolFourText =  this.scene.add.text(gameConfig.scale.width * 0.36, 1280, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Nunito", })
+            const symbolFourTextAmount = this.scene.add.text(gameConfig.scale.width * 0.4, 1280, `30`, {fontSize: "40px", color: '#ffffff', fontFamily:"Nunito", })
             const symbolFive = this.scene.add.image(gameConfig.scale.width * 0.62, 1300, "slots5_0").setScale(0.4)
-            const symbolFiveText = this.scene.add.text(gameConfig.scale.width * 0.655, 1280, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Arial", })
-            const symbolFiveTextAmount = this.scene.add.text(gameConfig.scale.width * 0.695, 1280, `20`, {fontSize: "40px", color: '#ffffff', fontFamily:"Arial", })
+            const symbolFiveText = this.scene.add.text(gameConfig.scale.width * 0.655, 1280, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Nunito", })
+            const symbolFiveTextAmount = this.scene.add.text(gameConfig.scale.width * 0.695, 1280, `20`, {fontSize: "40px", color: '#ffffff', fontFamily:"Nunito", })
             const symbolSix = this.scene.add.image(gameConfig.scale.width/2, 1450, "differentSeven").setOrigin(0.5)
-            const symbolSixText = this.scene.add.text(gameConfig.scale.width/2.2, 1540, `Any`, {fontSize: "40px", color: '#ffffff',  fontFamily: "Arial", align:"Center"}).setOrigin(0.5);
-            const threex = this.scene.add.text(gameConfig.scale.width * 0.5, 1540, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Arial",  align:"Center"}).setOrigin(0.5);
-            const fiveHundredText = this.scene.add.text(gameConfig.scale.width * 0.54, 1540, `500`, {fontSize: "40px", color: '#ffffff', fontFamily:"Arial",  align:"Center"}).setOrigin(0.5);
+            const symbolSixText = this.scene.add.text(gameConfig.scale.width/2.2, 1540, `Any`, {fontSize: "40px", color: '#ffffff',  fontFamily: "Nunito", align:"Center"}).setOrigin(0.5);
+            const threex = this.scene.add.text(gameConfig.scale.width * 0.5, 1540, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Nunito",  align:"Center"}).setOrigin(0.5);
+            const fiveHundredText = this.scene.add.text(gameConfig.scale.width * 0.54, 1540, `500`, {fontSize: "40px", color: '#ffffff', fontFamily:"Nunito",  align:"Center"}).setOrigin(0.5);
             const mixedBar = this.scene.add.image(gameConfig.scale.width/2, 1690, "differentBar").setOrigin(0.5)
-            const symbolSevenText = this.scene.add.text(gameConfig.scale.width/2.2, 1790, `Any`, {fontSize: "40px", color: '#ffffff',  fontFamily: "Arial", align:"Center"}).setOrigin(0.5);
-            const threexsecond = this.scene.add.text(gameConfig.scale.width * 0.5, 1790, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Arial",  align:"Center"}).setOrigin(0.5);
-            const thirtyText = this.scene.add.text(gameConfig.scale.width * 0.54, 1790, `30`, {fontSize: "40px", color: '#ffffff', fontFamily:"Arial",  align:"Center"}).setOrigin(0.5);
+            const symbolSevenText = this.scene.add.text(gameConfig.scale.width/2.2, 1790, `Any`, {fontSize: "40px", color: '#ffffff',  fontFamily: "Nunito", align:"Center"}).setOrigin(0.5);
+            const threexsecond = this.scene.add.text(gameConfig.scale.width * 0.5, 1790, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Nunito",  align:"Center"}).setOrigin(0.5);
+            const thirtyText = this.scene.add.text(gameConfig.scale.width * 0.54, 1790, `30`, {fontSize: "40px", color: '#ffffff', fontFamily:"Nunito",  align:"Center"}).setOrigin(0.5);
             const secondMixedBar = this.scene.add.image(gameConfig.scale.width * 0.42, 1900, "differentBar").setOrigin(0.5);
             const secondMixedSevern = this.scene.add.image(gameConfig.scale.width * 0.56, 1900, "differentSeven").setOrigin(0.5);
-            const mixedAnyText = this.scene.add.text(gameConfig.scale.width/2.2, 2000, `Any`, {fontSize: "40px", color: '#ffffff',  fontFamily: "Arial", align:"Center"}).setOrigin(0.5);
-            const mixedThreeX = this.scene.add.text(gameConfig.scale.width * 0.5, 2000, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Arial",  align:"Center"}).setOrigin(0.5);
-            const mixed500 = this.scene.add.text(gameConfig.scale.width * 0.54, 2000, `500`, {fontSize: "40px", color: '#ffffff', fontFamily:"Arial",  align:"Center"}).setOrigin(0.5);
-            const line2 = this.scene.add.text(gameConfig.scale.width * 0.25, 2050, "1. According to the combo settings, you only win a prize if three identical symbols appera from the left to right.",  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Arial", wordWrap: { width: 1000, useAdvancedWrap: true }, } )
+            const mixedAnyText = this.scene.add.text(gameConfig.scale.width/2.2, 2000, `Any`, {fontSize: "40px", color: '#ffffff',  fontFamily: "Nunito", align:"Center"}).setOrigin(0.5);
+            const mixedThreeX = this.scene.add.text(gameConfig.scale.width * 0.5, 2000, `3X`, {fontSize: "40px", color: '#ff8001', fontFamily:"Nunito",  align:"Center"}).setOrigin(0.5);
+            const mixed500 = this.scene.add.text(gameConfig.scale.width * 0.54, 2000, `500`, {fontSize: "40px", color: '#ffffff', fontFamily:"Nunito",  align:"Center"}).setOrigin(0.5);
+            const line2 = this.scene.add.text(gameConfig.scale.width * 0.25, 2050, "1. According to the combo settings, you only win a prize if three identical symbols appera from the left to right.",  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Nunito", wordWrap: { width: 1000, useAdvancedWrap: true }, } )
             const payLineImage = this.scene.add.image(gameConfig.scale.width/2, 2270, "payLineImage").setOrigin(0.5).setScale(0.8)
-            const line3 = this.scene.add.text(gameConfig.scale.width * 0.25, 2400, "2. Winning = Pay X Bet/3",  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Arial", wordWrap: { width: 1000, useAdvancedWrap: true }, } )
-            const line4 = this.scene.add.text(gameConfig.scale.width * 0.25, 2450, `3. When"Special Reel Combination"appears, the payout this round gains an extra bonus based on the corresponding symbol!`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Arial", wordWrap: { width: 1000, useAdvancedWrap: true }, } )
-            const line5 = this.scene.add.text(gameConfig.scale.width * 0.25, 2600, `4. Malfunction voids all pays and plays. If any malfunction occurs during the feature game, the system will automatically complete the game and ensure the player receives their winnings. Where an interruption occurs after the operator receives notification of the customer's gamble and where the customer can have no further influence on the outcome of the event or gamble the results of gamble should stand.`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Arial", wordWrap: { width: 1000, useAdvancedWrap: true }, } )
+            const line3 = this.scene.add.text(gameConfig.scale.width * 0.25, 2400, "2. Winning = Pay X Bet/3",  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Nunito", wordWrap: { width: 1000, useAdvancedWrap: true }, } )
+            const line4 = this.scene.add.text(gameConfig.scale.width * 0.25, 2450, `3. When"Special Reel Combination"appears, the payout this round gains an extra bonus based on the corresponding symbol!`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Nunito", wordWrap: { width: 1000, useAdvancedWrap: true }, } )
+            const line5 = this.scene.add.text(gameConfig.scale.width * 0.25, 2600, `4. Malfunction voids all pays and plays. If any malfunction occurs during the feature game, the system will automatically complete the game and ensure the player receives their winnings. Where an interruption occurs after the operator receives notification of the customer's gamble and where the customer can have no further influence on the outcome of the event or gamble the results of gamble should stand.`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Nunito", wordWrap: { width: 1000, useAdvancedWrap: true }, } )
             const spinIcon = this.scene.add.image(gameConfig.scale.width * 0.28, 3000, "spinBtn").setOrigin(0.5).setScale(0.4)
-            const spinText = this.scene.add.text(gameConfig.scale.width * 0.31, 2975, `Spin: Tap to start spinning based on the current bet.`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Arial", wordWrap: { width: 1000, useAdvancedWrap: true }, } )
+            const spinText = this.scene.add.text(gameConfig.scale.width * 0.31, 2975, `Spin: Tap to start spinning based on the current bet.`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Nunito", wordWrap: { width: 1000, useAdvancedWrap: true }, } )
             const autospinIcon = this.scene.add.image(gameConfig.scale.width * 0.28, 3130, "autoSpin").setOrigin(0.5).setScale(0.8)
-            const autospinText = this.scene.add.text(gameConfig.scale.width * 0.31, 3100, `Auto Spin: Tap to start the auto play, and click again to stop the auto spin`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Arial", wordWrap: { width: 900, useAdvancedWrap: true }, } )
+            const autospinText = this.scene.add.text(gameConfig.scale.width * 0.31, 3100, `Auto Spin: Tap to start the auto play, and click again to stop the auto spin`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Nunito", wordWrap: { width: 900, useAdvancedWrap: true }, } )
             const betIcon = this.scene.add.image(gameConfig.scale.width * 0.28, 3260, "betButton").setOrigin(0.5)
-            const betText = this.scene.add.text(gameConfig.scale.width * 0.31, 3235, `Bet Select: Tap to adjust the bet.`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Arial", wordWrap: { width: 900, useAdvancedWrap: true }, } )
+            const betText = this.scene.add.text(gameConfig.scale.width * 0.31, 3235, `Bet Select: Tap to adjust the bet.`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Nunito", wordWrap: { width: 900, useAdvancedWrap: true }, } )
             const turboIcon =  this.scene.add.image(gameConfig.scale.width * 0.28, 3390, "turboBtn").setOrigin(0.5).setScale(0.7)
-            const turboText = this.scene.add.text(gameConfig.scale.width * 0.31, 3350, `Turbo Spin: Tap to enable or disable the Turbo Spin to adjust the speed of reel spins on the game`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Arial", wordWrap: { width: 900, useAdvancedWrap: true }, } )
+            const turboText = this.scene.add.text(gameConfig.scale.width * 0.31, 3350, `Turbo Spin: Tap to enable or disable the Turbo Spin to adjust the speed of reel spins on the game`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Nunito", wordWrap: { width: 900, useAdvancedWrap: true }, } )
             const settingIcon =  this.scene.add.image(gameConfig.scale.width * 0.28, 3530, "MenuBtn").setOrigin(0.5).setScale(0.9)
-            const settingText = this.scene.add.text(gameConfig.scale.width * 0.31, 3490, `Option: Tap to show the game instruction and sound button`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Arial", wordWrap: { width: 900, useAdvancedWrap: true }, } )
+            const settingText = this.scene.add.text(gameConfig.scale.width * 0.31, 3490, `Option: Tap to show the game instruction and sound button`,  { fontSize: '35px', fontStyle: "Bold", color: '#ffffff', align: "left", fontFamily: "Nunito", wordWrap: { width: 900, useAdvancedWrap: true }, } )
             scrollContainer.add([content, line1, firstSymbol, paragraphText, secondSymbol, secondSymbolText, thirdSymbol, thirdSymbolText, payTableHeading, symbolOne, symbolOneText, symbolOneTextAmount, symboleTwo, symbolTwoText, symbolTwoTextAmount, symbolThree, symbolThreeText, symbolThreeTextAmount, symbolFour, symbolFourText, symbolFourTextAmount, symbolFive, symbolFiveText, symbolFiveTextAmount,
                 symbolSix, symbolSixText, threex, fiveHundredText, mixedBar, symbolSevenText, threexsecond, thirtyText, secondMixedBar, secondMixedSevern, mixedAnyText, mixedThreeX, mixed500, line2, payLineImage, line3, line4, line5
                 , spinIcon, spinText, autospinIcon, autospinText, betIcon, betText, turboIcon, turboText, settingIcon, settingText
@@ -549,14 +556,12 @@ export class UiPopups extends Phaser.GameObjects.Container {
         ).setDepth(1); // Set depth higher than blurGraphic
     
         // Popup background image
-        const popupBg = this.scene.add.image(0, 0, 'InfoPopupBg').setDepth(10);
+        const popupBg = this.scene.add.image(0, 0, 'logoutBg').setDepth(10);
         popupBg.setOrigin(0.5);
-        popupBg.setDisplaySize(900, 580); // Set the size for your popup background
+        popupBg.setDisplaySize(900, 700); // Set the size for your popup background
         popupBg.setAlpha(1); // Set background transparency
         this.exitBtn.disableInteractive();
-        const quitHeading = this.scene.add.text(0, -260, "QUIT", {fontFamily:"Arial", fontSize:"35px", color:"#ffffff"}).setOrigin(0.5)
-        // Add text to the popup
-        const popupText = this.scene.add.text(0, -45, "Do you really want \n to quit?", {fontSize: "50px", fontFamily: "Arial", color: "#ffffff", align: "center"}).setOrigin(0.5);
+        const popupText = this.scene.add.text(0, -45, "Do you really want \n to quit?", {fontSize: "50px", fontFamily: "Nunito", color: "#ffffff", align: "center"}).setOrigin(0.5);
         // Yes and No buttons
         const yesButtonSprite = [
             this.scene.textures.get("yesButton"),
@@ -567,14 +572,6 @@ export class UiPopups extends Phaser.GameObjects.Container {
             this.scene.textures.get("noButton"),
             this.scene.textures.get("noButtonHover")
         ];
-        const crossButton = new Phaser.GameObjects.Sprite(this.scene, -390, -258, "exitButton").setInteractive()
-        crossButton.on('pointerdown', (pointerdown: Phaser.Input.Pointer)=>{
-            this.UiContainer.onSpin(false);
-            this.exitBtn.setInteractive()
-            popupContainer.destroy();
-            blurGraphic.destroy(); // Destroy blurGraphic when popup is close
-        })
-        crossButton.setScale(0.3)
         this.yesBtn = new InteractiveBtn(this.scene, yesButtonSprite, () => {
             this.UiContainer.onSpin(false);
             Globals.Socket?.socket.emit("EXIT", {});
@@ -584,7 +581,6 @@ export class UiPopups extends Phaser.GameObjects.Container {
         }, 0, true);
     
         this.noBtn = new InteractiveBtn(this.scene, noButtonSprite, () => {
-            
             this.UiContainer.onSpin(false);
             this.exitBtn.setInteractive()
             popupContainer.destroy();
@@ -594,7 +590,7 @@ export class UiPopups extends Phaser.GameObjects.Container {
         this.yesBtn.setPosition(-130, 200).setScale(0.8);
         this.noBtn.setPosition(130, 200).setScale(0.8);
         // Add all elements to popupContainer
-        popupContainer.add([popupBg, quitHeading, popupText, this.yesBtn, this.noBtn, crossButton]);
+        popupContainer.add([popupBg, popupText, this.yesBtn, this.noBtn]);
         // Add popupContainer to the scene
         this.scene.add.existing(popupContainer);       
     }

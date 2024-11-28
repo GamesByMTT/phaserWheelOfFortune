@@ -20,10 +20,10 @@ export default class Disconnection extends Scene{
         this.SceneBg.on('pointerdown', (pointer:Phaser.Input.Pointer)=>{
             pointer.event.stopPropagation();
         })
-        this.popupBackground = new Phaser.GameObjects.Sprite(this, gameConfig.scale.width/2, gameConfig.scale.height/2, "InfoPopupBg");
+        this.popupBackground = new Phaser.GameObjects.Sprite(this, gameConfig.scale.width/2, gameConfig.scale.height/2, "logoutBg");
         this.pageviewContainer.add([this.SceneBg, this.popupBackground])
 
-        const disconnectionText = this.add.text( this.popupBackground.x, this.popupBackground.y - 70, "Unable to connect to server", {color: "#ffffff", fontFamily:"Arial", fontSize: '50px', stroke: "#4f3130",
+        const disconnectionText = this.add.text( this.popupBackground.x, this.popupBackground.y - 70, "Unable to connect to server", {color: "#ffffff", fontFamily:"Nunito", fontSize: '50px', stroke: "#4f3130",
             strokeThickness: 1.5, align:"center", wordWrap: { width: 800, useAdvancedWrap: true }})
         disconnectionText.setOrigin(0.5);
         this.quit = new Phaser.GameObjects.Sprite(this, gameConfig.scale.width/2, gameConfig.scale.height/2 + 200, "closeButton").setInteractive().setScale(0.8)

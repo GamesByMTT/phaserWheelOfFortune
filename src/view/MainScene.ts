@@ -74,6 +74,9 @@ export default class MainScene extends Scene {
         // Initialize UI Popups
         this.uiPopups = new UiPopups(this, this.uiContainer, this.soundManager);
         this.mainContainer.add([ this.uiContainer, this.uiPopups]);
+        // Initialize payLines
+        this.lineGenerator = new LineGenerator(this, this.slot.slotSymbols[0][0].symbol.height, this.slot.slotSymbols[0][0].symbol.width).setScale(0.5, 0.4);
+        this.mainContainer.add(this.lineGenerator);
         this.setupFocusBlurEvents()
     }
 
@@ -87,7 +90,7 @@ export default class MainScene extends Scene {
      */
     onResultCallBack() {
         this.uiContainer.onSpin(false);
-        // this.lineGenerator.showLines(ResultData.gameData.linesToEmit);
+        this.lineGenerator.showLines(ResultData.gameData.linestoemit);
     }
     /**
      * @method onSpinCallBack Move reel
@@ -95,10 +98,7 @@ export default class MainScene extends Scene {
      */
     onSpinCallBack() {
         this.slot.moveReel();
-        if(this.winningLine?.active){
-            this.winningLine.stop();
-            this.winningLine.destroy();
-        }
+        this.lineGenerator.hideLines();
     }
 
     onAutoSpinStop(){
@@ -114,7 +114,7 @@ export default class MainScene extends Scene {
      */
     recievedMessage(msgType: string, msgParams: any) {
         if (msgType === 'ResultData') {
-            this.time.delayedCall(3500, () => {    
+            this.time.delayedCall(1000, () => {    
                 // if(ResultData.playerData.currentWining > 0){
                 //     this.playwinningArrowAnimation();
                 // }

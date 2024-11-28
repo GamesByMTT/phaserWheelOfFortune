@@ -43,6 +43,7 @@ export const LoaderConfig = {
     bigWinPopup: "src/sprites/BigWinPopup.png",
     hugeWinPopup:"src/sprites/HugeWinPopup.png",
     megaWinPopup: "src/sprites/MegaWinPopUpImage.png",
+    winLine:"src/sprites/winLine.png",
 
     freeSpinPopup: "src/sprites/FreeSpinPopup.png",
 
@@ -58,6 +59,7 @@ export const LoaderConfig = {
 
     gamelogo: "src/sprites/Logo.png",
 
+    logoutBg: "src/sprites/logoutBg.png",
     InfoPopupBg: "src/sprites/infoBg.png",
     goldBar: "src/sprites/GoldBar.png",
     goldSpinText: "src/sprites/GoldSpinText.png",
@@ -104,6 +106,16 @@ export const LoaderConfig = {
     betContainerHover: "src/sprites/betContainerHover.png",
     blueReelBg: "src/sprites/BlueBGBox.png",
     goldenRespin: "src/sprites/GoldenReelBox.png",
+    settingBg : "src/sprites/settingBg.png",
+    rightArrow: "src/sprites/rightArrow.png",
+    rightArrowPressed: "src/sprites/rightArrowPressed.png",
+    leftArrow: "src/sprites/leftArrow.png",
+    leftArrowPressed: "src/sprites/leftArrowPressed.png",
+    bonusScreenShot: "src/sprites/BonusScreen.jpg",
+    firstAny: "src/sprites/firstAny.png",
+    secondAny: "src/sprites/secondAny.png",
+    thirdAny: "src/sprites/thirdAny.png",
+    payTable:"src/sprites/payTable.png",
 
     lineBar0: "src/sprites/linebar0.png",
     lineBar1: "src/sprites/linebar1.png",

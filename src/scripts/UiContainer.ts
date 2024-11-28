@@ -73,7 +73,7 @@ export class UiContainer extends Phaser.GameObjects.Container {
     const linePanel = this.scene.add.sprite(0, 0, "blackBox").setDepth(0)
     linePanel.setOrigin(0.5);
     linePanel.setPosition(gameConfig.scale.width * 0.42, gameConfig.scale.height * 0.88);
-    const linePanelText = this.scene.add.text(linePanel.x, gameConfig.scale.height * 0.95, "Bets/Line", {fontFamily: "Arial", fontSize: "35px", color: "#ffffff"}).setOrigin(0.5)
+    const linePanelText = this.scene.add.text(linePanel.x, gameConfig.scale.height * 0.95, "Bets/Line", {fontFamily: "Nunito", fontSize: "35px", color: "#ffffff"}).setOrigin(0.5)
     // container.add(lineText);
     this.pBtn = this.createButton('pBtn', gameConfig.scale.width * 0.49, gameConfig.scale.height * 0.88, () => {
         this.bnuttonMusic("buttonpressed");
@@ -130,7 +130,7 @@ export class UiContainer extends Phaser.GameObjects.Container {
     BetBtnInit() {
         const container = this.scene.add.container(gameConfig.scale.width * 0.25, gameConfig.scale.height * 0.88);
         this.betButtonDisable = container;
-        const betPanelHeading = this.scene.add.text(0, 75, "Total Bet", {fontFamily:"Arial", fontSize: "35px", color: "#ffffff"}).setOrigin(0.5)
+        const betPanelHeading = this.scene.add.text(0, 75, "Total Bet", {fontFamily:"Nunito", fontSize: "35px", color: "#ffffff"}).setOrigin(0.5)
         const betPanel = this.scene.add.sprite(0, 0, 'blackBox').setOrigin(0.5).setDepth(4).setScale(0.9);
         container.add(betPanel);
         this.CurrentBetText = new TextLabel(this.scene, 0, 0, ((initData.gameData.Bets[currentGameData.currentBetIndex]) * 9).toFixed(2).toString(), 35, "#ffffff").setDepth(6);
@@ -143,11 +143,11 @@ export class UiContainer extends Phaser.GameObjects.Container {
      */
     winBtnInit() {
         const winPanelImage = this.scene.add.sprite(gameConfig.scale.width * 0.59, gameConfig.scale.height * 0.88, "blackBox").setDepth(0).setOrigin(0.5)
-        const winPanel = this.scene.add.text(winPanelImage.x, gameConfig.scale.height * 0.95, 'Win', {fontFamily: "Arial", color: "#ffffff", fontSize: "35px"});
+        const winPanel = this.scene.add.text(winPanelImage.x, gameConfig.scale.height * 0.95, 'Win', {fontFamily: "Nunito", color: "#ffffff", fontSize: "35px"});
         winPanel.setOrigin(0.5);
         const currentWining: any = ResultData.playerData.currentWining;
        
-        this.currentWiningText = this.scene.add.text(winPanelImage.x, gameConfig.scale.height * 0.88, currentWining.toFixed(2), {fontFamily:"Arial", color: "#ffffff", fontSize: "35px"} ).setOrigin(0.5);
+        this.currentWiningText = this.scene.add.text(winPanelImage.x, gameConfig.scale.height * 0.88, currentWining.toFixed(2), {fontFamily:"Nunito", color: "#ffffff", fontSize: "35px"} ).setOrigin(0.5);
         this.add([winPanelImage, winPanel, this.currentWiningText])
         if(currentWining > 0){
             this.scene.tweens.add({
@@ -167,10 +167,10 @@ export class UiContainer extends Phaser.GameObjects.Container {
      */
     balanceBtnInit() {
         const balanceBg = this.scene.add.sprite(gameConfig.scale.width * 0.75, gameConfig.scale.height * 0.88, "blackBox").setOrigin(0.5)
-        const balancePanel = this.scene.add.text(balanceBg.x, gameConfig.scale.height * 0.95, "Balance", {fontFamily: "Arial", color:"#ffffff", fontSize:"35px"});
+        const balancePanel = this.scene.add.text(balanceBg.x, gameConfig.scale.height * 0.95, "Balance", {fontFamily: "Nunito", color:"#ffffff", fontSize:"35px"});
         balancePanel.setOrigin(0.5);
         currentGameData.currentBalance = initData.playerData.Balance;
-        this.currentBalanceText = this.scene.add.text(balanceBg.x, gameConfig.scale.height * 0.88, new Number(currentGameData.currentBalance).toFixed(2), {fontFamily: "Arial", fontSize: "35px", color:"#ffffff",}).setOrigin(0.5);
+        this.currentBalanceText = this.scene.add.text(balanceBg.x, gameConfig.scale.height * 0.88, new Number(currentGameData.currentBalance).toFixed(2), {fontFamily: "Nunito", fontSize: "35px", color:"#ffffff",}).setOrigin(0.5);
         this.add([balanceBg, balancePanel, this.currentBalanceText]);
     }
     /**
@@ -193,7 +193,7 @@ export class UiContainer extends Phaser.GameObjects.Container {
                 duration: 100,
                 onComplete: () => {
                     // Send message and update the balance
-                    Globals.Socket?.sendMessage("SPIN", { currentBet: currentGameData.currentBetIndex, currentLines: 14, spins: 1 });
+                    Globals.Socket?.sendMessage("SPIN", { currentBet: currentGameData.currentBetIndex, currentLines: 3, spins: 1 });
                     // currentGameData.currentBalance -= initData.gameData.Bets[currentGameData.currentBetIndex];
                     // this.currentBalanceText.setText(currentGameData.currentBalance.toFixed(2));
                     // Trigger the spin callback
@@ -243,7 +243,7 @@ export class UiContainer extends Phaser.GameObjects.Container {
                         if (this.isAutoSpinning && currentGameData.currentBalance > 0) {
                             Globals.Socket?.sendMessage("SPIN", {
                                 currentBet: currentGameData.currentBetIndex,
-                                currentLines : 20
+                                currentLines : 3
                             });
                             currentGameData.currentBalance -= initData.gameData.Bets[currentGameData.currentBetIndex];
                             this.currentBalanceText.setText(currentGameData.currentBalance.toFixed(2));

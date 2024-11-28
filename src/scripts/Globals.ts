@@ -41,6 +41,7 @@ interface SymbolType {
   defaultAmount: object;
   symbolsCount: object;
   description: string
+  payout: string
 }
 
 export const initData = {
@@ -107,7 +108,7 @@ export const ResultData = {
     },
     isBonus: false,
     jackpot: 0,
-    linesToEmit: [],
+    linestoemit: [],
     symbolsToEmit: [],
   },
   playerData: {

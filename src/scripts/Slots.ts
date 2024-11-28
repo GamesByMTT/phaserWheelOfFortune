@@ -384,36 +384,29 @@ class Symbols {
     endTween() {
         // Check if this is a visible symbol position
         if (this.index.y < 3) { // Assuming 3 visible symbols
+            let textureKeys: string[] = [];
             const elementId = ResultData.gameData.resultSymbols[this.index.y][this.index.x];
-            
-            // Directly set the base texture first
-            const baseTextureKey = `slots${elementId}_0`;
-            if (this.scene.textures.exists(baseTextureKey)) {
-                this.symbol.setTexture(baseTextureKey);
+            for (let i = 0; i < 15; i++) {
+                const textureKey = `slots${elementId}_${i}`;
+                // Check if the texture exists in cache
+                if (this.scene.textures.exists(textureKey)) {
+                    textureKeys.push(textureKey);                        
+                } 
             }
-    
-            // Then set up the animation if needed
-            const animKey = `symbol_anim_${elementId}`;
-            if (!this.scene.anims.exists(animKey)) {
-                let textureKeys: string[] = [];
-                for (let i = 0; i < 24; i++) {
-                    const textureKey = `slots${elementId}_${i}`;
-                    if (this.scene.textures.exists(textureKey)) {
-                        textureKeys.push(textureKey);
-                    }
-                }
-                
+            // Check if we have texture keys to set
                 if (textureKeys.length > 0) {
+                // Create animation with the collected texture keys
                     this.scene.anims.create({
-                        key: animKey,
+                        key: `symbol_anim_${elementId}`,
                         frames: textureKeys.map(key => ({ key })),
                         frameRate: 20,
                         repeat: -1
                     });
+                // Set the texture to the first key and start the animation
+                    this.symbol.setTexture(textureKeys[0]);           
                 }
-            }
         }
-    
+        this.startMoving = false; 
         this.scene.time.delayedCall(50, () => {
             this.startMoving = false;
         });

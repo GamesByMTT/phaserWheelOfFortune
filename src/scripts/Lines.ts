@@ -11,8 +11,8 @@ export class LineGenerator extends Phaser.GameObjects.Container {
 
     constructor(scene: Phaser.Scene, yOf: number, xOf: number) {
         super(scene);
-        xOffset = xOf ;
-        yOffset = yOf * 1.15;
+        xOffset = xOf;
+        yOffset = yOf;
 
         // Create lines based on initData
         for (let i = 0; i < initData.gameData.Lines.length; i++) {
@@ -20,15 +20,18 @@ export class LineGenerator extends Phaser.GameObjects.Container {
             this.add(line);
             this.lineArr.push(line);
         }
-        this.setPosition(gameConfig.scale.width / 3, gameConfig.scale.height/2.9);
+        this.setPosition(gameConfig.scale.width / 3.2, gameConfig.scale.height/2.9);
         // Add this Container to the scene
         scene.add.existing(this);
     }
 
 
     showLines(lines: number[]) {
+        // console.log(lines, "lines");
+        
         lines.forEach(lineIndex => {
             if (lineIndex >= 0 && lineIndex < this.lineArr.length) {
+                // console.log(this.lineArr[lineIndex], "this.lineArr[lineIndex]");
                 this.lineArr[lineIndex].showLine();
             }
         });
@@ -45,7 +48,7 @@ export class Lines extends Phaser.GameObjects.Container {
     constructor(scene: Phaser.Scene, index: number) {
         super(scene);
 
-        const yLineOffset = 15;
+        const yLineOffset = 80;
         const points = initData.gameData.Lines[index];
 
         // Create line sprites between points
@@ -54,24 +57,28 @@ export class Lines extends Phaser.GameObjects.Container {
             const startY = yOffset * points[i] - yLineOffset;
             const endX = (i + 1) * xOffset;
             const endY = yOffset * points[i + 1] - yLineOffset;
+
             const distance = Phaser.Math.Distance.Between(startX, startY, endX, endY);
             const angle = Phaser.Math.Angle.Between(startX, startY, endX, endY);
+             
             const lineSprite = this.createLineSprite(scene, startX, startY, distance, angle);
             this.lineSprites.push(lineSprite);
             this.add(lineSprite);
         }
+
         // Initialize all line sprites to be invisible
         this.hideLine();
+
         // Add this Container to the scene
         scene.add.existing(this);
     }
 
     createLineSprite(scene: Phaser.Scene, startX: number, startY: number, distance: number, angle: number): Phaser.GameObjects.Sprite {
         // Assuming 'lineSegment' is the key of your preloaded sprite
-        const lineSprite = scene.add.sprite(startX, startY, '');
+        const lineSprite = scene.add.sprite(startX, startY, 'winLine');
 
         // Adjust the size of the sprite to match the distance between points
-        lineSprite.setDisplaySize(distance, lineSprite.height); 
+        lineSprite.setDisplaySize(distance, lineSprite.height + 5); 
 
         // Set the rotation of the sprite to match the angle between points
         lineSprite.setRotation(angle);
@@ -85,6 +92,7 @@ export class Lines extends Phaser.GameObjects.Container {
     }
 
     showLine() {
+
         this.lineSprites.forEach(sprite => sprite.setVisible(true));
     }
 
