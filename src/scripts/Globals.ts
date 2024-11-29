@@ -14,6 +14,7 @@ type globalDataType = {
   SceneHandler: SceneHandler | undefined;
   Socket: SocketManager | undefined;
   PhaserInstance: Phaser.Game | undefined;
+  masterVolume: number; // Add this line
 };
 
 export const Globals: globalDataType = {
@@ -31,6 +32,7 @@ export const Globals: globalDataType = {
   Socket: undefined,
   soundResources: {},
   PhaserInstance: undefined,
+  masterVolume: 1,
 };
 
 // Define the structure of a symbol object
@@ -47,7 +49,7 @@ interface SymbolType {
 export const initData = {
   gameData: {
     Reel: [[]],
-    BonusData: [],
+    BonusPayout: [],
     Bets: [],
     LinesCount: [],
     autoSpin: [],

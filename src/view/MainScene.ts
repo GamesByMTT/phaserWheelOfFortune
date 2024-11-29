@@ -5,7 +5,6 @@ import { LineGenerator, Lines } from '../scripts/Lines';
 import { UiPopups } from '../scripts/UiPopup';
 import LineSymbols from '../scripts/LineSymbols';
 import { Globals, ResultData, currentGameData, initData } from '../scripts/Globals';
-import { gameConfig } from '../scripts/appconfig';
 import SoundManager from '../scripts/SoundManager';
 
 export default class MainScene extends Scene {
@@ -75,7 +74,7 @@ export default class MainScene extends Scene {
         this.uiPopups = new UiPopups(this, this.uiContainer, this.soundManager);
         this.mainContainer.add([ this.uiContainer, this.uiPopups]);
         // Initialize payLines
-        this.lineGenerator = new LineGenerator(this, this.slot.slotSymbols[0][0].symbol.height, this.slot.slotSymbols[0][0].symbol.width).setScale(0.5, 0.4);
+        this.lineGenerator = new LineGenerator(this, this.slot.slotSymbols[0][0].symbol.height, this.slot.slotSymbols[0][0].symbol.width).setScale(1, 1);
         this.mainContainer.add(this.lineGenerator);
         this.setupFocusBlurEvents()
     }

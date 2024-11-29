@@ -20,7 +20,7 @@ export class LineGenerator extends Phaser.GameObjects.Container {
             this.add(line);
             this.lineArr.push(line);
         }
-        this.setPosition(gameConfig.scale.width / 3.2, gameConfig.scale.height/2.9);
+        this.setPosition(gameConfig.scale.width / 3.2, gameConfig.scale.height/2.1);
         // Add this Container to the scene
         scene.add.existing(this);
     }

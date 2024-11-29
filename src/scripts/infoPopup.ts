@@ -58,7 +58,7 @@ export default class InfoScene extends Scene{
         // Create pages and add content
         this.pages[1] = this.add.container(0, 0);
         
-        const Heading = this.add.text(960, 330, "SYMBOLS", {fontFamily:"Nunito", color:"#ffffff", fontSize:"50px"}).setOrigin(0.5)
+        const Heading = this.add.text(960, 330, "Symbols", {fontFamily:"Nunito", color:"#ffffff", fontSize:"50px"}).setOrigin(0.5)
 
         const tripple7 = this.add.sprite(550, 450, "slots2_0").setOrigin(0.5).setScale(0.8)
         const tripple7StaticText = this.add.text(500, 520, `3X`, {fontFamily:"Nunito", fontSize:"40px", color: "#FFFF00", wordWrap:{ width: 300, useAdvancedWrap: true }}).setOrigin(0.5)
@@ -84,7 +84,7 @@ export default class InfoScene extends Scene{
 
         this.pages[2] = this.add.container(0, 0);  // Position off-screen initially
         const specialHeading = this.add.text(this.scale.width/2, 320, "Special Symbols", {fontFamily:"Nunito", color: "#ffffff", fontSize: "50px"}).setOrigin(0.5)
-        const goldSprite = this.add.sprite(650, 450, "slots13_0").setOrigin(0.5).setScale(0.8)
+        const goldSprite = this.add.sprite(650, 450, "slots12_0").setOrigin(0.5).setScale(0.8)
         const bonusText = this.add.text(650, 600, `Any 2X - triggers bonus game. Tap the spin button to spin the wheel and get exciting reward`, {fontFamily:"Nunito", fontSize:"35px", color: "#FFFF00", wordWrap:{ width: 350, useAdvancedWrap: true }}).setOrigin(0.5)
         const bonusScene = this.add.sprite(1200, 550, "bonusScreenShot").setScale(0.35).setOrigin(0.5)
        

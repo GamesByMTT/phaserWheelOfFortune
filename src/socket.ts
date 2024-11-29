@@ -13,8 +13,7 @@ export class SocketManager {
   constructor() { 
    
   }
-  onToken(data : {socketUrl : string, authToken : string})
-  {
+  onToken(data : {socketUrl : string, authToken : string}){
     try { 
       this.SocketUrl = data.socketUrl;
       this.authToken = data.authToken;
@@ -26,8 +25,7 @@ export class SocketManager {
     }
   }
   
-  setupSocket()
-  {
+  setupSocket(){
    this.socket = io(this.SocketUrl, {
       auth: {
         token: this.authToken,
@@ -60,7 +58,7 @@ export class SocketManager {
             initData.gameData = data.message.GameData;
             initData.playerData = data.message.PlayerData;
             initData.UIData.symbols = data.message.UIData.paylines.symbols
-            initData.gameData.BonusData = data.message.BonusData;
+            initData.gameData.BonusPayout = data.message.GameData.BonusPayout;
             currentGameData.currentBalance = data.message.PlayerData.Balance
             console.log(data, "initData on Socket File");
           }

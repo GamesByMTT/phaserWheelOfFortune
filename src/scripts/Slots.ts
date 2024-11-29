@@ -50,13 +50,13 @@ export class Slots extends Phaser.GameObjects.Container {
         this.symbolWidth = exampleSymbol.displayWidth/ 4;
         this.symbolHeight = exampleSymbol.displayHeight/4;
         this.spacingX = 380; // Add some spacing
-        this.spacingY = 170; // Add some spacing
+        this.spacingY = 145; // Add some spacing
         const startPos = {
             x: gameConfig.scale.width / 3.3,
-            y: gameConfig.scale.height / 2.8 
+            y: gameConfig.scale.height / 2.4
         };
 
-        const totalSymbol = 5;
+        const totalSymbol = 4;
         const visibleSymbol = 3;
         const startIndex = 1;
         const initialYOffset = (totalSymbol - startIndex - visibleSymbol) * this.spacingY;
@@ -64,7 +64,7 @@ export class Slots extends Phaser.GameObjects.Container {
             const reelContainer = new Phaser.GameObjects.Container(scene);
             this.reelContainers.push(reelContainer); // Store the container for future use
             this.slotSymbols[i] = [];
-            for (let j = 0; j < 64; j++) {
+            for (let j = 0; j < 14; j++) {
                 let symbolKey = this.getRandomSymbolKey();
                 // let symbolKey = this.getRandomSymbolKey(); // Get a random symbol key
                 let slot = new Symbols(scene, symbolKey, { x: i, y: j }, reelContainer);
@@ -101,50 +101,6 @@ export class Slots extends Phaser.GameObjects.Container {
         return this.symbolKeys[randomIndex];
     }
 
-    // getFilteredSymbolKeys(): string[] {
-    //     // Filter symbols based on the pattern
-    //     const allSprites = Globals.resources;
-    //     const filteredSprites = Object.keys(allSprites).filter(spriteName => {
-    //         const regex = /^slots\d+_\d+$/; // Regex to match "slots<number>_<number>"
-    //         if (regex.test(spriteName)) {
-    //             const [, num1, num2] = spriteName.match(/^slots(\d+)_(\d+)$/) || [];
-    //             const number1 = parseInt(num1, 10);
-    //             const number2 = parseInt(num2, 10);
-    //             // Check if the numbers are within the desired range
-    //             return number1 >= 1 && number1 <= 13 && number2 >= 1 && number2 <= 5;
-    //         }
-    //         return false;
-    //     });
-    //     return filteredSprites;
-    // }
-
-    // getFourthReelSymbolKeys(): string[] {
-    //     // Filter symbols for 4th reel (modify the pattern as needed)
-    //     const allSprites = Globals.resources;
-    //     const filteredSprites = Object.keys(allSprites).filter(spriteName => {
-    //         const regex = /^slots\d+_\d+$/; // Example pattern for special symbols
-    //         if (regex.test(spriteName)) {
-    //             const [, num1, num2] = spriteName.match(/^slots(\d+)_(\d+)$/) || [];
-    //             const number1 = parseInt(num1, 10);
-    //             const number2 = parseInt(num2, 10);
-    //             // Adjust range as needed
-    //             return number1 >= 6 && number1 <= 11 && number2 >= 6 && number2 <= 12;
-    //         }
-    //         return false;
-    //     });
-    
-    //     return filteredSprites;
-    // }
-
-    // getRandomFourthReelSymbol(): string {
-    //     const randomIndex = Phaser.Math.Between(0, this.fourthReelSymbolKeys.length - 1);
-    //     return this.fourthReelSymbolKeys[randomIndex];
-    // }
-
-    // getRandomSymbolKey(): string {
-    //     const randomIndex = Phaser.Math.Between(0, this.symbolKeys.length - 1);        
-    //     return this.symbolKeys[randomIndex];
-    // }
 
     moveReel() {   
         const reelsToSpin = ResultData.gameData.isFreeSpin ? 3 : this.reelContainers.length;
@@ -201,7 +157,7 @@ export class Slots extends Phaser.GameObjects.Container {
 
     stopReel(reelIndex: number) {
         const reel = this.reelContainers[reelIndex];
-        const reelDelay = 300 * (reelIndex + 1);
+        const reelDelay = 200 * (reelIndex + 1);
         const targetSymbolIndex = 0; // Example: Align the first symbol
         const targetY = -targetSymbolIndex * this.symbolHeight; 
         this.scene.tweens.add({
@@ -221,13 +177,13 @@ export class Slots extends Phaser.GameObjects.Container {
             },
             delay: reelDelay
         });
-
-        if (this.connectionTimeout) { 
-            this.connectionTimeout.remove(false);
-        }
         for (let j = 0; j < this.slotSymbols[reelIndex].length; j++) {
             this.slotSymbols[reelIndex][j].endTween();
          }
+        if (this.connectionTimeout) { 
+            this.connectionTimeout.remove(false);
+        }
+       
     }
 
     showDisconnectionScene(){
@@ -253,26 +209,31 @@ export class Slots extends Phaser.GameObjects.Container {
     // Function to play win animations
     playWinAnimations() {
         this.resultCallBack();
-
-        // ResultData.gameData.symbolsToEmit.forEach((rowArray: any) => {
-        //     rowArray.forEach((row: any) => {
-        //         if (typeof row === "string") {
-        //             const [y, x]: number[] = row.split(",").map((value) => parseInt(value));
-        //             const elementId = ResultData.gameData.ResultReel[x][y];
-
-        //             if (this.slotSymbols[y] && this.slotSymbols[y][x]) {
-        //                 this.winMusic("winMusic");
-
-        //                 // Play the regular symbol animation
-        //                 this.slotSymbols[y][x].playAnimation(`symbol_anim_${elementId}`);
-
-        //                 // Add winning animation overlay
-        //                 // this.playWinningOverlayAnimation(x, y, elementId); 
-        //             }
-        //         }
-        //     });
-        // });
-    }
+        
+        if (ResultData.gameData.linestoemit && Array.isArray(ResultData.gameData.linestoemit)) {
+            // Play win sound if there are winning lines
+            if (ResultData.gameData.linestoemit.length > 0) {
+                this.winMusic("winMusic");
+            }
+        
+            ResultData.gameData.linestoemit.forEach((rowIndex: number) => {
+                // For each row in linestoemit, animate all symbols in that row
+                for (let colIndex = 0; colIndex < this.reelContainers.length; colIndex++) {
+                    const elementId = ResultData.gameData.resultSymbols[rowIndex][colIndex];
+                    
+                    if (this.slotSymbols[colIndex] && this.slotSymbols[colIndex][rowIndex]) {
+                        // Use the same animation key format as in endTween
+                        const animationKey = `symbol_anim_${elementId}`;
+                        
+                        // Play the symbol's animation sequence
+                        if (this.scene.anims.exists(animationKey)) {
+                            this.slotSymbols[colIndex][rowIndex].playAnimation(animationKey);
+                        }
+                    }
+                }
+            });
+        }
+        }
 
     playSymbolAnimation(x: number, y: number, elementId: string, isFirstThreeSame: boolean, firstSymbol: string) {
         const symbol = this.slotSymbols[x][y];
@@ -318,10 +279,10 @@ class Symbols {
     startX: number = 0;
     startMoving: boolean = false;
     index: { x: number; y: number };
-    totalSymbol : number = 64;
+    totalSymbol : number = 14;
     visibleSymbol: number = 3;
     startIndex: number = 1;
-    spacingY : number = 170;
+    spacingY : number = 140;
     initialYOffset : number = 0
     scene: Phaser.Scene;
     private isMobile: boolean;
@@ -386,7 +347,7 @@ class Symbols {
         if (this.index.y < 3) { // Assuming 3 visible symbols
             let textureKeys: string[] = [];
             const elementId = ResultData.gameData.resultSymbols[this.index.y][this.index.x];
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 44; i++) {
                 const textureKey = `slots${elementId}_${i}`;
                 // Check if the texture exists in cache
                 if (this.scene.textures.exists(textureKey)) {
@@ -406,10 +367,9 @@ class Symbols {
                     this.symbol.setTexture(textureKeys[0]);           
                 }
         }
-        this.startMoving = false; 
-        this.scene.time.delayedCall(50, () => {
+        
             this.startMoving = false;
-        });
+       
     }
 
   
