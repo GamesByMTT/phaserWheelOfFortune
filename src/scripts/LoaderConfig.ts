@@ -61,6 +61,12 @@ export const LoaderConfig = {
     goldenFrame: "src/sprites/GoldenFrame.png",
     blackandWhiteGoldSpin: "src/sprites/black&WhiteGoldSpin.png",
     blackandWhiteWheel: "src/sprites/black&WhiteWheelOfFortune.png",
+    spinCenter: "src/sprites/spinCenter.png",
+    freeSpinStartButton: "src/sprites/freeSpinStartButton.png",
+    freeSpinStartButtonPressed: "src/sprites/freeSpinStartButtonPressed.png",
+    stopArrow: "src/sprites/stopArrow.png",
+    normalLight: "src/sprites/NormalLight.png",
+    glowLight: "src/sprites/GlowLight.png",
 
     Wheelaward: "/src/sprites/Wheelaward.png",
     AmountBg: "src/sprites/AmountBg.png",
@@ -100,32 +106,7 @@ export const LoaderConfig = {
     indicator: "src/sprites/indicator.png",
     soundImage: "src/sprites/soundText.png",
     musicImage: "src/sprites/musicText.png",
-
-    lineBar0: "src/sprites/linebar0.png",
-    lineBar1: "src/sprites/linebar1.png",
-    lineBar2: "src/sprites/linebar2.png",
-    lineBar3: "src/sprites/linebar3.png",
-    lineBar4: "src/sprites/linebar4.png",
-    lineBar5: "src/sprites/linebar5.png",
-    lineBar6: "src/sprites/linebar6.png",
-    lineBar7: "src/sprites/linebar7.png",
-    lineBar8: "src/sprites/linebar8.png",
-    lineBar9: "src/sprites/linebar9.png",
-    lineBar10: "src/sprites/linebar10.png",
-    lineBar11: "src/sprites/linebar11.png",
-    lineBar12: "src/sprites/linebar12.png",
-    lineBar13: "src/sprites/linebar13.png",
-    lineBar14: "src/sprites/linebar14.png",
-    lineBar15: "src/sprites/linebar15.png",
-    lineBar16: "src/sprites/linebar16.png",
-    lineBar17: "src/sprites/linebar17.png",
-    lineBar18: "src/sprites/linebar18.png",
-    lineBar19: "src/sprites/linebar19.png",
-    lineBar20: "src/sprites/linebar20.png",
-    lineBar21: "src/sprites/linebar21.png",
-    lineBar22: "src/sprites/linebar22.png",
-    lineBar23:"src/sprites/linebar23.png",
-
+    frameLight: "src/sprites/frameLight.png",
 
     slots0_0 :  "/src/sprites/Symbols/first/empty.png",
     // slots1_1 :  "/src/sprites/Symbols/777/slots7772.png",
@@ -522,16 +503,13 @@ export const staticData = {
     Background:  "src/sprites/Background.jpg",
 };
 
-export const fontData = ["Montserrat"];
-
-
-
 export const LoaderSoundConfig: any = {
-        backgroundMusic: "src/sounds/Teaser.mp3",
-        // onSpin :  "/src/sounds/slot-machine-loop.mp3",
-        spinButton: "src/sounds/spin.mp3",
+        backgroundMusic: "src/sounds/bg.mp3",
+        onSpin :  "/src/sounds/spin.mp3",
+        spinButton: "src/sounds/spinButton.mp3",
         winMusic: "src/sounds/JackpotWinner.mp3",
-        buttonpressed: "src/sounds/Game-Button.wav",
+        buttonpressed: "src/sounds/button.mp3",
+        spinWheelMusic: "src/sounds/SpinWheel.mp3"
  
 };
 

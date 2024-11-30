@@ -199,8 +199,6 @@ export class Slots extends Phaser.GameObjects.Container {
 
     
     stopTween() {
-        console.log(this.reelContainers.length, "this.reelContainers.length");
-        
         for (let i = 0; i < this.reelContainers.length; i++) { 
             this.stopReel(i);   
         }

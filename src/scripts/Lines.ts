@@ -27,8 +27,8 @@ export class LineGenerator extends Phaser.GameObjects.Container {
 
 
     showLines(lines: number[]) {
-        // console.log(lines, "lines");
-        
+        console.log(lines, "lines");
+        // 
         lines.forEach(lineIndex => {
             if (lineIndex >= 0 && lineIndex < this.lineArr.length) {
                 // console.log(this.lineArr[lineIndex], "this.lineArr[lineIndex]");
@@ -75,6 +75,8 @@ export class Lines extends Phaser.GameObjects.Container {
 
     createLineSprite(scene: Phaser.Scene, startX: number, startY: number, distance: number, angle: number): Phaser.GameObjects.Sprite {
         // Assuming 'lineSegment' is the key of your preloaded sprite
+        console.log("creating lines");
+        
         const lineSprite = scene.add.sprite(startX, startY, 'winLine');
 
         // Adjust the size of the sprite to match the distance between points
@@ -92,7 +94,6 @@ export class Lines extends Phaser.GameObjects.Container {
     }
 
     showLine() {
-
         this.lineSprites.forEach(sprite => sprite.setVisible(true));
     }
 

@@ -2,7 +2,6 @@
 
 import { Scene, GameObjects } from "phaser";
 import MainScene from "./MainScene";
-import BonusScene from "./BonusScene";
 import { LoaderConfig, LoaderSoundConfig } from "../scripts/LoaderConfig";
 import { Globals } from "../scripts/Globals";
 import SoundManager from "../scripts/SoundManager";
@@ -233,8 +232,9 @@ export default class MainLoader extends Scene {
     }
 
     public loadScene() {
-        this.completeLoading();
-        
-        Globals.SceneHandler?.addScene('BonusScene', BonusScene, true)
+        setTimeout(() => {
+            this.completeLoading();
+            Globals.SceneHandler?.addScene('MainScene', MainScene, true)
+        }, 1000);
     }
 }

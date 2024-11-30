@@ -98,7 +98,7 @@ export const currentGameData = {
 export const ResultData = {
   gameData: {
     BonusResult: [],
-    BonusStopIndex: -1,
+    BonusIndex: -1,
     ResultReel: [[]],
     resultSymbols: [[]],
     WinAmout: 0,
@@ -108,7 +108,7 @@ export const ResultData = {
       count: 0,
       isNewAdded: false,
     },
-    isBonus: false,
+    isbonus: false,
     jackpot: 0,
     linestoemit: [],
     symbolsToEmit: [],

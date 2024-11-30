@@ -68,9 +68,7 @@ export class SocketManager {
             ResultData.gameData = data.message.GameData;
             ResultData.playerData = data.message.PlayerData;
             Globals.emitter?.Call("ResultData");
-            // console.log(data);
-            console.log(data.message, "ResultData")
-            console.log(ResultData.gameData, "Ater ResultData")
+            console.log(ResultData.gameData, "ResultData")
           }, 500);
              
         }

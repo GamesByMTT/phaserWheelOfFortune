@@ -6,6 +6,7 @@ import { UiPopups } from '../scripts/UiPopup';
 import LineSymbols from '../scripts/LineSymbols';
 import { Globals, ResultData, currentGameData, initData } from '../scripts/Globals';
 import SoundManager from '../scripts/SoundManager';
+import BonusScene from './BonusScene';
 
 export default class MainScene extends Scene {
     slot!: Slots;
@@ -20,6 +21,7 @@ export default class MainScene extends Scene {
     blackandWhiteWheel!: Phaser.GameObjects.Sprite;
     centerLine!: Phaser.GameObjects.Sprite;
     reelOuterBg!: Phaser.GameObjects.Sprite;
+    frameLight!: Phaser.GameObjects.Sprite;
     
     lineGenerator!: LineGenerator;
     soundManager!: SoundManager
@@ -51,21 +53,24 @@ export default class MainScene extends Scene {
       
         this.logo = new Phaser.GameObjects.Sprite(this, width * 0.5, height/2 - 470, "gamelogo").setOrigin(0.5).setScale(0.8)
         this.goldBar = new Phaser.GameObjects.Sprite(this, width * 0.36, height/2 - 370, "goldBar").setScale(1.3)
+        
         this.trippleText = new Phaser.GameObjects.Sprite(this, width * 0.25, height/2 - 370, "trippleText").setScale(0.9)
         this.reelOuterBg = new Phaser.GameObjects.Sprite(this, width/2, height/1.8, "reelOuterBg")
         this.goldenFrame = new Phaser.GameObjects.Sprite(this, width/2, height/2 - 200, "goldenFrame").setOrigin(0.5)
         this.reelBg = new Phaser.GameObjects.Sprite(this, width/2, height/1.8, "reelBg")
+        this.frameLight = new Phaser.GameObjects.Sprite(this, width * 0.5, height/1.8, "frameLight");
         this.blackandWhiteGoldSpin = new Phaser.GameObjects.Sprite(this, width/1.295, height/3.22, "blackandWhiteGoldSpin").setScale(0.95)
         this.blackandWhiteWheel = new Phaser.GameObjects.Sprite(this, width * 0.2275, height/3.22, "blackandWhiteWheel").setScale(0.95)
         this.goldSpin = new Phaser.GameObjects.Sprite(this, width/1.4, height/2 - 370, "goldSpinText").setScale(0.9)
         // this.centerLine = new Phaser.GameObjects.Sprite(this, width/1.9, height/1.9, "centerLine").setScale(0.8)
         // this.WheelawardText = new Phaser.GameObjects.Sprite(this, width * 0.795, height * 0.26, "Wheelaward").setScale(0.7)
        
-        this.mainContainer.add([this.goldBar, this.logo, this.trippleText, this.goldenFrame, this.goldSpin, this.blackandWhiteGoldSpin, this.blackandWhiteWheel, this.reelBg, this.reelOuterBg])
+        this.mainContainer.add([this.goldBar, this.logo, this.trippleText, this.goldenFrame, this.goldSpin, this.blackandWhiteGoldSpin, this.blackandWhiteWheel, this.reelBg, this.reelOuterBg, this.frameLight])
         this.soundManager.playSound("backgroundMusic")
         // // Initialize Slots
         this.slot = new Slots(this, this.uiContainer,() => this.onResultCallBack(), this.soundManager);
-        this.mainContainer.add(this.slot)
+        this.lineGenerator = new LineGenerator(this, this.slot.slotSymbols[0][0].symbol.height, this.slot.slotSymbols[0][0].symbol.width).setScale(1, 1);
+        this.mainContainer.add([this.lineGenerator, this.slot])
         // this.centerLine = new Phaser.GameObjects.Sprite(this, width/1.9, height/1.9, "centerLine").setScale(0.8)
         // this,this.mainContainer.add(this.centerLine)
         // Initialize UI Container
@@ -73,9 +78,6 @@ export default class MainScene extends Scene {
         // Initialize UI Popups
         this.uiPopups = new UiPopups(this, this.uiContainer, this.soundManager);
         this.mainContainer.add([ this.uiContainer, this.uiPopups]);
-        // Initialize payLines
-        this.lineGenerator = new LineGenerator(this, this.slot.slotSymbols[0][0].symbol.height, this.slot.slotSymbols[0][0].symbol.width).setScale(1, 1);
-        this.mainContainer.add(this.lineGenerator);
         this.setupFocusBlurEvents()
     }
 
@@ -88,14 +90,19 @@ export default class MainScene extends Scene {
      * @description update the spirte of Spin Button after reel spin and emit Lines number to show the line after wiining
      */
     onResultCallBack() {
-        this.uiContainer.onSpin(false);
         this.lineGenerator.showLines(ResultData.gameData.linestoemit);
+        const onSpinMusic = "onSpin"
+        this.uiContainer.onSpin(false);
+        this.soundManager.stopSound(onSpinMusic)
+        
     }
     /**
      * @method onSpinCallBack Move reel
      * @description on spin button click moves the reel on Seen and hide the lines if there are any
      */
     onSpinCallBack() {
+        const onSpinMusic = "onSpin"
+        this.soundManager.playSound(onSpinMusic)
         this.slot.moveReel();
         this.lineGenerator.hideLines();
     }
@@ -114,20 +121,6 @@ export default class MainScene extends Scene {
     recievedMessage(msgType: string, msgParams: any) {
         if (msgType === 'ResultData') {
             this.time.delayedCall(1000, () => {    
-                // if(ResultData.playerData.currentWining > 0){
-                //     this.playwinningArrowAnimation();
-                // }
-                // if(ResultData.gameData.isFreeSpin){
-                //     this.reelBg.setTexture("blueReelBg");
-    
-                //     // Start free spins if not already running
-                //     if (!this.freeSpinInterval && ResultData.gameData.freeSpinCount > 0) {
-                //         this.startFreeSpins();
-                //         this.uiContainer.onSpin(true);
-                //     }
-                // } else {
-                //     this.reelBg.setTexture("reelBg");
-                // }
                 this.uiContainer.currentWiningText.setText(ResultData.playerData.currentWining.toFixed(2));
                 currentGameData.currentBalance = ResultData.playerData.Balance;
                 let newBalance = currentGameData.currentBalance 
@@ -136,60 +129,13 @@ export default class MainScene extends Scene {
             setTimeout(() => {
                 this.slot.stopTween();
             }, 1000);
+            if (ResultData.gameData.isbonus) {
+                this.time.delayedCall(2500, ()=>{
+                    Globals.SceneHandler?.addScene('BonusScene', BonusScene, true)
+                })
+            }  
         }
     }
-
-    private startFreeSpins() {
-        // Clear any existing interval
-        if (this.freeSpinInterval) {
-            clearInterval(this.freeSpinInterval);
-        }
-        // Set interval for free spins
-        this.freeSpinInterval = setInterval(() => {
-            if (ResultData.gameData.freeSpinCount > 0) {
-                this.onSpinCallBack();
-                ResultData.gameData.freeSpinCount--;
-                setTimeout(() => {
-                    this.slot.stopTween();
-                }, 1000);
-            } else {
-                // End free spins
-                this.endFreeSpins();
-            }
-        }, 6000); // Adjust timing as needed (6 seconds between spins)
-    }
-    
-    private endFreeSpins() {
-        // Clear the interval
-        if (this.freeSpinInterval) {
-            clearInterval(this.freeSpinInterval);
-            this.freeSpinInterval = null;
-        }
-        // Reset free spin state
-        ResultData.gameData.isFreeSpin = false;
-        this.reelBg.setTexture("reelBg");
-        this.uiContainer.onSpin(false);
-    }
-    
-    // Winning Animatiom over Symbol lineGlow
-    // playwinningArrowAnimation() {
-    //     const respinFrames: Phaser.Types.Animations.AnimationFrame[] = [];
-    //     for (let i = 0; i < 24; i++) {
-    //         respinFrames.push({ key: `lineBar${i}` });
-    //     }
-    //     this.anims.create({
-    //         key: 'winningLineAnimation',
-    //         frames: respinFrames,
-    //         frameRate: 24, // Adjust as needed
-    //         repeat: -1 // Play only once
-    //     });
-    //     this.winningLine = this.add.sprite(
-    //         this.cameras.main.width / 1.9,
-    //         this.cameras.main.height / 1.9,
-    //         `lineBar0` // Initial frame
-    //     ).setDepth(5).setScale(0.8); // Ensure it's on top
-    //     this.winningLine.play('winningLineAnimation');
-    // }
 
     private setupFocusBlurEvents() {
         window.addEventListener('blur', () => {
